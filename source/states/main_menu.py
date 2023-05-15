@@ -2,6 +2,7 @@ import pygame
 from .. import setup
 from .. import tools
 from .. import constants as C
+from ..components import info
 
 
 class MainMenu:
@@ -9,6 +10,7 @@ class MainMenu:
         self.setup_background()
         self.setup_player()
         self.setup_cursor()
+        self.info = info.Info('main_menu')
 
     def setup_background(self):
         self.background = setup.GRAPHICS['level_1']
@@ -28,3 +30,5 @@ class MainMenu:
         surface.blit(self.caption, (170, 100))
         surface.blit(self.player_image, (110, 490))
         surface.blit(self.curtor, (220, 360))
+        self.info.update()
+        self.info.draw(surface)
