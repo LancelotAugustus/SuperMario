@@ -109,9 +109,13 @@ class Player(pygame.sprite.Sprite):
             self.state = 'walk'
 
     def walk(self, keys):
-        self.max_x_vel = self.max_walk_vel
-        self.x_accel = self.walk_accel
-        if self.current_time - self.walking_timer > 100:
+        if keys[pygame.K_DOWN]:
+            self.max_x_vel = self.max_run_vel
+            self.x_accel = self.run_accel
+        else:
+            self.max_x_vel = self.max_walk_vel
+            self.x_accel = self.walk_accel
+        if self.current_time - self.walking_timer > self.clac_frame_duration():
             if self.frame_index < 3:
                 self.frame_index += 1
             else:
@@ -147,8 +151,12 @@ class Player(pygame.sprite.Sprite):
     def play_basketball(self, keys):
         pass
 
-    def clac_vel(self, vel, accel, max_vel, is_positive= True):
+    def clac_vel(self, vel, accel, max_vel, is_positive=True):
         if is_positive:
             return min(vel + accel, max_vel)
         else:
             return max(vel - accel, - max_vel)
+
+    def clac_frame_duration(self):
+        duration = - 60 / self.max_run_vel * abs(self.x_vel) + 80
+        return duration
